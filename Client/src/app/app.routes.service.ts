@@ -5,12 +5,20 @@ import { RouterModule, Route } from "@angular/router";
 import { ModuleWithProviders } from "@angular/core";
 import { NotFoundComponent } from "./views/errors/not-found/not-found.component";
 import { Dashboard1Component } from "./views/dashboards/dashboard1/dashboard1.component";
+import { LoginComponent } from "./views/login/login.component";
+import { RegisterComponent } from "./views/register/register.component";
+import { StatsCardComponent } from "./views/dashboards/common/stats-card/stats-card.component";
 
 const routes: Route[] = [
-  { path: "", pathMatch: "full", redirectTo: "dashboards/v1" },
+  { path: "", pathMatch: "full", redirectTo: "pages/login" },
+  { path: "pages/login", component: LoginComponent },
+  { path: "pages/register", component: RegisterComponent },
   {
     path: "dashboards",
-    children: [{ path: "v1", component: Dashboard1Component }]
+    children: [
+      { path: "v1", component: Dashboard1Component },
+      { path: "v2", component: StatsCardComponent }
+    ]
   },
   {
     path: "profiles",
