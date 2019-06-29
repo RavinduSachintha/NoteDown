@@ -16,95 +16,83 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final JwtUserDetailsService jwtUserDetailsService;
+	private final JwtAuthenticationEntryPoint unauthorizedHandler;
+	private final JwtTokenUtil jwtTokenUtil;
+	private final JwtUserDetailsService jwtUserDetailsService;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
+	@Value("${jwt.header}")
+	private String tokenHeader;
 
-    @Value("${jwt.route.authentication.path}")
-    private String authenticationPath;
+	@Value("${jwt.route.authentication.path}")
+	private String authenticationPath;
 
-    @Autowired
-    public WebSecurityConfiguration(JwtAuthenticationEntryPoint unauthorizedHandler, JwtTokenUtil jwtTokenUtil, JwtUserDetailsService jwtUserDetailsService) {
-        this.unauthorizedHandler = unauthorizedHandler;
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.jwtUserDetailsService = jwtUserDetailsService;
-    }
+	@Autowired
+	public WebSecurityConfiguration(JwtAuthenticationEntryPoint unauthorizedHandler, JwtTokenUtil jwtTokenUtil,
+			JwtUserDetailsService jwtUserDetailsService) {
+		this.unauthorizedHandler = unauthorizedHandler;
+		this.jwtTokenUtil = jwtTokenUtil;
+		this.jwtUserDetailsService = jwtUserDetailsService;
+	}
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(jwtUserDetailsService)
-                .passwordEncoder(passwordEncoderBean());
-    }
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoderBean());
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoderBean() {
-        return new BCryptPasswordEncoder();
-    }
+	@Autowired
+	private LoggingAccessDeniedHandler accessDeniedHandler;
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Bean
+	public PasswordEncoder passwordEncoderBean() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                // we don't need CSRF because our token is invulnerable
-                .csrf().disable()
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+		httpSecurity
+				// we don't need CSRF because our token is invulnerable
+				.csrf().disable()
 
-                // don't create session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated();
+				.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 
-        // Custom JWT based security filter
-        JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
-        httpSecurity
-                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+				// don't create session
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+				.antMatchers("/auth/**").permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login")
+				.permitAll().and().logout().invalidateHttpSession(true).clearAuthentication(true)
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
+				.permitAll().and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
-        // disable page caching
-        httpSecurity
-                .headers()
-                .frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
-                .cacheControl();
-    }
+		// Custom JWT based security filter
+		JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(),
+				jwtTokenUtil, tokenHeader);
+		httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // AuthenticationTokenFilter will ignore the below paths
-        web
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.POST,
-                        authenticationPath
-                )
+		// disable page caching
+		httpSecurity.headers().frameOptions().sameOrigin() // required to set for H2 else H2 Console will be blank.
+				.cacheControl();
+	}
 
-                // allow anonymous resource requests
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/",
-                        "/*.html",
-                        "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                );
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		// AuthenticationTokenFilter will ignore the below paths
+		web.ignoring().antMatchers(HttpMethod.POST, authenticationPath)
 
-    }
+				// allow anonymous resource requests
+				.and().ignoring().antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css",
+						"/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");
+
+	}
 }
