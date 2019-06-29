@@ -13,3 +13,8 @@ footer {
 footer p {
 	padding: 15px;
 }
+
+.logo-img {
+	width: 50px;
+	height: auto;
+}

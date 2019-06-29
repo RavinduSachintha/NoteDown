@@ -2,18 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<th:block th:fragment="header">
-		<nav class="navbar navbar-inverse navbar-static-top">
+		<nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
 			<div class="container">
-				<div class="navbar-header">
-					<a class="navbar-brand" th:href="@{/}"> <img
-						th:src="@{/img/logo.png}" alt="memorynotfound logo" />
-					</a>
-				</div>
-				<div id="navbar" class="collapse navbar-collapse">
-					<ul class="nav navbar-nav">
-						<li class="active"><a th:href="@{/}">Home</a></li>
-					</ul>
-				</div>
+				<!-- Brand/logo -->
+				<a class="navbar-brand px-3 border rounded bg-dark" th:href="@{/}">
+					<img th:src="@{/img/logo.png}" alt="logo" style="width: 40px;">
+				</a> <span class="h1 font-weight-light text-white"> <b class="font-weight-bold">NoteDown</b> : Note Storing
+					Application </span>
+				<!-- Links -->
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link border" href="#">Link
+							1</a></li>
+					<li class="nav-item"><a class="nav-link border" href="#">Link
+							2</a></li>
+					<li class="nav-item"><a class="nav-link border" href="#">Link
+							3</a></li>
+				</ul>
 			</div>
 		</nav>
 	</th:block>

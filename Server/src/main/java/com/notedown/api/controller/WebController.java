@@ -21,6 +21,11 @@ public class WebController {
 		return "login";
 	}
 
+	@GetMapping("/registration")
+	public String registration() {
+		return "registration";
+	}
+	
 	@GetMapping("/access-denied")
 	public String accessDenied() {
 		return "/error/access-denied";

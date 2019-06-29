@@ -3,15 +3,15 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorate="~{fragments/layout}">
 <head>
-<title>Login</title>
+<title>Registration</title>
 </head>
 <body>
 	<div layout:fragment="content" th:remove="tag">
 
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<h1>Login page</h1>
-				<form th:action="@{/auth}" method="post">
+				<h1>Signup page</h1>
+				<form th:action="@{/login}" name="userForm" method="post">
 					<div th:if="${param.error}">
 						<div class="alert alert-danger">Invalid username or
 							password.</div>

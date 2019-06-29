@@ -91,7 +91,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.POST, authenticationPath)
 
 				// allow anonymous resource requests
-				.and().ignoring().antMatchers(HttpMethod.GET, "/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css",
+				.and().ignoring().antMatchers(HttpMethod.GET, "/registration","/", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css",
 						"/**/*.js", "/**/*.png", "/**/*.jpg", "/**/*.jpeg");
 
 	}
