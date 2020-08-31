@@ -10,4 +10,6 @@ import java.util.Optional;
 @SuppressWarnings({"UnusedDeclaration"})
 public interface AppUserRepository extends CrudRepository<AppUser, Long> {
     Optional<AppUser> findByUsernameOrEmail(String username, String email);
+
+    Optional<AppUser> findByUsernameOrEmailOrGroupName(String username, String email, String groupName);
 }

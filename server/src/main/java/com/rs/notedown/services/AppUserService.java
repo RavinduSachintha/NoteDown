@@ -16,6 +16,10 @@ public class AppUserService {
         return appUserRepository.findById(id).orElseThrow(() -> new DataNotExistException("User", id));
     }
 
+    public boolean isAlreadyExist(String username, String email, String groupName) {
+        return appUserRepository.findByUsernameOrEmailOrGroupName(username, email, groupName).isPresent();
+    }
+
     public AppUser save(AppUser appUser) {
         return appUserRepository.save(appUser);
     }

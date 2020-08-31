@@ -8,4 +8,8 @@ public class DataNotExistException extends RuntimeException {
     public DataNotExistException(String dataType, long dataId) {
         super(dataType + " " + dataId + " does not exist.");
     }
+
+    public DataNotExistException(String dataType, String dataTitle) {
+        super(dataType + " " + dataTitle + " does not exist.");
+    }
 }

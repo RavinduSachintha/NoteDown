@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SuppressWarnings({"UnusedDeclaration"})
-public class ApiResponse extends ResponseEntity<Object> {
-    public ApiResponse(Object body) {
+public class ApiSuccessResponse extends ResponseEntity<Object> {
+    public ApiSuccessResponse(Object body) {
         super(body, HttpStatus.OK);
     }
 }
