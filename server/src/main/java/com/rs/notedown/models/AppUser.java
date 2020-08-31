@@ -22,24 +22,15 @@ public class AppUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Name is mandatory")
-    @Size(max = 50, message = "Name must be shorter than 50 characters")
     @Column(nullable = false, length = 50)
     private String name;
 
-    @NotBlank(message = "Username is mandatory")
-    @Size(max = 20, message = "Username must be shorter than 20 characters")
     @Column(unique = true, nullable = false, updatable = false, length = 20)
     private String username;
 
-    @Email(message = "Email validation failed")
-    @NotBlank(message = "Email is mandatory")
-    @Size(max = 255, message = "Email must be shorter than 255 characters")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Password is mandatory")
-    @Size(max = 100, message = "Password must be shorter than 100 characters")
     @Column(nullable = false, length = 100)
     private String password;
 

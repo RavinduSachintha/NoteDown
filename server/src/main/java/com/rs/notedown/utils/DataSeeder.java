@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @ConditionalOnProperty(
@@ -23,6 +24,8 @@ public class DataSeeder implements ApplicationRunner {
     private AppUserRepository appUserRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     Role adminRole, appUserRole;
     AppUser adminUser, appUser;
@@ -31,7 +34,8 @@ public class DataSeeder implements ApplicationRunner {
         adminRole = new Role(RoleName.ROLE_ADMIN);
         appUserRole = new Role(RoleName.ROLE_USER);
 
-        adminUser = new AppUser("admin", "admin", "admin@gmail.com", "admin@123", adminRole);
+        adminUser = new AppUser("admin-user", "admin-user", "admin@gmail.com",
+                passwordEncoder.encode("admin@123"), adminRole);
     }
 
     public void saveData() {
@@ -51,7 +55,9 @@ public class DataSeeder implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        System.out.println("Data seeding process is started...");
         this.initializeData();
         this.saveData();
+        System.out.println("Data seeding process is completed!");
     }
 }
