@@ -50,18 +50,18 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<Object> registerAdminUser(@Valid @RequestBody SignUpRequestForAdmin signUpRequestForAdmin) {
         try {
-            if (appUserService.isAlreadyExist(signUpRequest.getUsername(), signUpRequest.getEmail(),
-                    signUpRequest.getGroupName())) {
+            if (appUserService.isAlreadyExistForAdmin(signUpRequestForAdmin.getUsername(),
+                    signUpRequestForAdmin.getEmail(), signUpRequestForAdmin.getGroupName())) {
                 return new ApiErrorResponse
                         ("Requested username or email or group name is already exist", HttpStatus.CONFLICT);
             }
-            AppUser appUser = (AppUser) ModelMap.convert(signUpRequest, AppUser.class);
+            AppUser appUser = (AppUser) ModelMap.convert(signUpRequestForAdmin, AppUser.class);
             appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
-            appUser.setRole(roleService.getByName(RoleName.valueOf(signUpRequest.getRole())));
+            appUser.setRole(roleService.getByName(RoleName.ROLE_ADMIN));
             appUserService.save(appUser);
-            return new ApiSuccessResponse("User registration succeeded");
+            return new ApiSuccessResponse("Admin user registration succeeded");
         } catch (Exception e) {
             return new ApiErrorResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

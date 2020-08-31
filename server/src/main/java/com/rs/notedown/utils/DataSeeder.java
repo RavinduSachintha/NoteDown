@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 @Component
 @SuppressWarnings({"UnusedDeclaration"})
 public class DataSeeder implements ApplicationRunner {
+    Role adminRole, appUserRole;
+    AppUser adminUser, appUser;
     @Autowired
     private AppUserRepository appUserRepository;
     @Autowired
@@ -27,15 +29,12 @@ public class DataSeeder implements ApplicationRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    Role adminRole, appUserRole;
-    AppUser adminUser, appUser;
-
     public void initializeData() {
         adminRole = new Role(RoleName.ROLE_ADMIN);
         appUserRole = new Role(RoleName.ROLE_USER);
 
         adminUser = new AppUser("admin-user", "admin-user", "admin@gmail.com",
-                passwordEncoder.encode("admin@123"), "Test Group 01",adminRole);
+                passwordEncoder.encode("admin@123"), "Test Group 01", adminRole);
     }
 
     public void saveData() {

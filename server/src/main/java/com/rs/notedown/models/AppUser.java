@@ -30,7 +30,7 @@ public class AppUser implements Serializable {
     @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(unique = true, nullable = false, updatable = false, length = 20)
+    @Column(nullable = false, updatable = false, length = 20)
     private String groupName;
 
     @ManyToOne
