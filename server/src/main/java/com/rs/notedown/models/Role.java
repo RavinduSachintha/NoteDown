@@ -27,7 +27,7 @@ public class Role {
     @Column(nullable = false, length = 20)
     private RoleName roleName;
 
-    @OneToMany(mappedBy = "role")
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
     @JsonManagedReference
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
