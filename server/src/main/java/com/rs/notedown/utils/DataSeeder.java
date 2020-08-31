@@ -35,7 +35,7 @@ public class DataSeeder implements ApplicationRunner {
         appUserRole = new Role(RoleName.ROLE_USER);
 
         adminUser = new AppUser("admin-user", "admin-user", "admin@gmail.com",
-                passwordEncoder.encode("admin@123"), adminRole);
+                passwordEncoder.encode("admin@123"), "Test Group 01",adminRole);
     }
 
     public void saveData() {

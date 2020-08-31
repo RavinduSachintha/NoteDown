@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -50,6 +51,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
+    @SuppressWarnings({"EmptyMethod"})
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -68,11 +70,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
-                .authorizeRequests().antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.pdf", "/**/*.gif",
-                "/**/*.svg", "/**/*.jpg", "/**/*.jpeg", "/**/*.html", "/**/*.css", "/**/*.js", "/v2/api-docs",
-                "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html",
-                "/webjars/**").permitAll()
-
+                .authorizeRequests()
+                .antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.pdf", "/**/*.gif", "/**/*.svg",
+                        "/**/*.jpg", "/**/*.jpeg", "/**/*.html", "/**/*.css", "/**/*.js", "/webjars/**").permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
+                        "/configuration/security", "/swagger-ui.html").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
 
                 .anyRequest().authenticated();
