@@ -1,6 +1,9 @@
 package com.rs.notedown.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rs.notedown.constants.RoleName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +29,8 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Set<AppUser> users = new HashSet<>();
 
     public Role(RoleName roleName) {

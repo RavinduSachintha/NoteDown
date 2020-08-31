@@ -1,11 +1,11 @@
 package com.rs.notedown.payloads;
 
-import com.rs.notedown.constants.RoleName;
-import com.rs.notedown.utils.ValueOfEnum;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -27,12 +27,4 @@ public class SignUpRequest {
     @NotBlank(message = "Password is mandatory")
     @Size(min = 6, max = 100, message = "Password must have 6-100 character length")
     private String password;
-
-    @NotBlank(message = "Group Name is mandatory")
-    @Size(min = 4, max = 20, message = "Group Name must have 4-20 character length")
-    private String groupName;
-
-    @NotNull(message = "User role is mandatory")
-    @ValueOfEnum(enumClass = RoleName.class, message = "Role must be ROLE_ADMIN or ROLE_USER")
-    private String role;
 }
