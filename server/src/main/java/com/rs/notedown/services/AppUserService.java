@@ -13,8 +13,7 @@ public class AppUserService {
     private AppUserRepository appUserRepository;
 
     public AppUser getById(long id) {
-//        return appUserRepository.findById(id).orElseThrow(() -> new DataNotExistException("User", id));
-        return appUserRepository.findById(id).orElse(null);
+        return appUserRepository.findById(id).orElseThrow(() -> new DataNotExistException("User", id));
     }
 
     public AppUser save(AppUser appUser) {
