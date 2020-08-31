@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 
 @SuppressWarnings({"UnusedDeclaration"})
 public class ModelMap {
-    public static ModelMapper modelMapper = new ModelMapper();
+    public static final ModelMapper modelMapper = new ModelMapper();
 
     public static <T> Object convert(Object obj, Class<T> cls) {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);

@@ -3,6 +3,7 @@ package com.rs.notedown.controllers;
 import com.rs.notedown.payloads.ApiResponse;
 import com.rs.notedown.payloads.SignInRequest;
 import com.rs.notedown.payloads.SignInResponse;
+import com.rs.notedown.payloads.SignUpRequest;
 import com.rs.notedown.security.JwtTokenProvider;
 import com.rs.notedown.services.AppUserService;
 import com.rs.notedown.services.AuthService;
@@ -35,5 +36,10 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
         return new ApiResponse(new SignInResponse(jwt));
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<Object> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        return new ApiResponse("Hello");
     }
 }

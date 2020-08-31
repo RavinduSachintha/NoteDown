@@ -1,5 +1,6 @@
 package com.rs.notedown.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -14,6 +15,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
+@ConditionalOnProperty(
+        prefix = "swagger",
+        value = "enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 @Configuration
 @EnableSwagger2
 @SuppressWarnings({"UnusedDeclaration"})
