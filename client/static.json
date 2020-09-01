@@ -1,0 +1,5 @@
+{
+  "root": "public/",
+  "https_only": true,
+  "clean_urls": true
+}
