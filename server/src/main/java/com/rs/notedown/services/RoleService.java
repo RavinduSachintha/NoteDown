@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 @SuppressWarnings({"UnusedDeclaration"})
 public class RoleService {
-    @Autowired
-    private RoleRepository roleRepository;
+  @Autowired private RoleRepository roleRepository;
 
-    public Role getById(long id) {
-        return roleRepository.findById(id).orElseThrow(() -> new DataNotExistException("Role", id));
-    }
+  public Role getById(long id) {
+    return roleRepository.findById(id).orElseThrow(
+        () -> new DataNotExistException("Role", id));
+  }
 
-    public Role getByName(RoleName roleName) {
-        return roleRepository.findByRoleName(roleName)
-                .orElseThrow(() -> new DataNotExistException("Role", roleName.name()));
-    }
+  public Role getByName(RoleName roleName) {
+    return roleRepository.findByRoleName(roleName).orElseThrow(
+        () -> new DataNotExistException("Role", roleName.name()));
+  }
 }

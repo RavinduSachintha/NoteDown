@@ -7,11 +7,8 @@ import lombok.Setter;
 @Setter
 public class SignInResponse {
 
-    private final String tokenType = "Bearer";
-    private String accessToken;
+  private final String tokenType = "Bearer";
+  private String accessToken;
 
-    public SignInResponse(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
+  public SignInResponse(String accessToken) { this.accessToken = accessToken; }
 }

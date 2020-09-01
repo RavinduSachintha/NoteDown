@@ -16,21 +16,25 @@ import org.springframework.stereotype.Service;
 @SuppressWarnings({"UnusedDeclaration"})
 public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    AppUserRepository appUserRepository;
+  @Autowired AppUserRepository appUserRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        // Let people login with either username or email
-        AppUser appUser = appUserRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail).orElseThrow
-                (() -> new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail));
-        return UserPrincipal.create(appUser);
-    }
+  @Override
+  public UserDetails loadUserByUsername(String usernameOrEmail)
+      throws UsernameNotFoundException {
+    // Let people login with either username or email
+    AppUser appUser =
+        appUserRepository
+            .findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+            .orElseThrow(()
+                             -> new UsernameNotFoundException(
+                                 "User not found with username or email : " +
+                                 usernameOrEmail));
+    return UserPrincipal.create(appUser);
+  }
 
-    public UserDetails loadUserById(long id) throws DataNotExistException {
-        AppUser appUser = appUserRepository.findById(id).orElseThrow(
-                () -> new DataNotExistException("User", id)
-        );
-        return UserPrincipal.create(appUser);
-    }
+  public UserDetails loadUserById(long id) throws DataNotExistException {
+    AppUser appUser = appUserRepository.findById(id).orElseThrow(
+        () -> new DataNotExistException("User", id));
+    return UserPrincipal.create(appUser);
+  }
 }

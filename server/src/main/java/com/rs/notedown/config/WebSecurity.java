@@ -22,62 +22,69 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
-)
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true,
+                            prePostEnabled = true)
 @SuppressWarnings({"UnusedDeclaration"})
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+  @Autowired private CustomUserDetailsService customUserDetailsService;
+  @Autowired private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
+  @Bean
+  public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    return new JwtAuthenticationFilter();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-    }
+  @Override
+  public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(customUserDetailsService)
+        .passwordEncoder(passwordEncoder());
+  }
 
-    @SuppressWarnings({"EmptyMethod"})
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @SuppressWarnings({"EmptyMethod"})
+  @Bean(BeanIds.AUTHENTICATION_MANAGER)
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().and()
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors()
+        .and()
 
-                .csrf().disable()
+        .csrf()
+        .disable()
 
-                .exceptionHandling()
-                .authenticationEntryPoint(unauthorizedHandler).and()
+        .exceptionHandling()
+        .authenticationEntryPoint(unauthorizedHandler)
+        .and()
 
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
 
-                .authorizeRequests()
-                .antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.pdf", "/**/*.gif", "/**/*.svg",
-                        "/**/*.jpg", "/**/*.jpeg", "/**/*.html", "/**/*.css", "/**/*.js", "/webjars/**").permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-                        "/configuration/security", "/swagger-ui.html").permitAll()
-                .antMatchers("/api/auth/**").permitAll()
+        .authorizeRequests()
+        .antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.pdf", "/**/*.gif",
+                     "/**/*.svg", "/**/*.jpg", "/**/*.jpeg", "/**/*.html",
+                     "/**/*.css", "/**/*.js", "/webjars/**")
+        .permitAll()
+        .antMatchers("/v2/api-docs", "/configuration/ui",
+                     "/swagger-resources/**", "/configuration/security",
+                     "/swagger-ui.html")
+        .permitAll()
+        .antMatchers("/api/auth/**")
+        .permitAll()
 
-                .anyRequest().authenticated();
+        .anyRequest()
+        .authenticated();
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+    http.addFilterBefore(jwtAuthenticationFilter(),
+                         UsernamePasswordAuthenticationFilter.class);
+  }
 }
