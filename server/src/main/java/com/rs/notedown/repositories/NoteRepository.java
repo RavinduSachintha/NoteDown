@@ -11,7 +11,5 @@ import java.util.List;
 public interface NoteRepository extends CrudRepository<Note, Long> {
     List<Note> findByCategoryId(long categoryId);
 
-    List<Note> findByCreatedByGroupName(String groupName);
-
     void deleteByCategoryId(long categoryId);
 }

@@ -42,8 +42,8 @@ public class CategoryService {
         return this.getById(categoryId).getCreatedBy().getId() == currentUser.getId();
     }
 
-    public Category save(Category category) {
-        return categoryRepository.save(category);
+    public void save(Category category) {
+        categoryRepository.save(category);
     }
 
     public void delete(long id) {

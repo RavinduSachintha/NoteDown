@@ -26,18 +26,20 @@ public class NoteService {
         return noteRepository.findByCategoryId(categoryId);
     }
 
-    public List<Note> getAllByGroupName(String groupName) {
-        return noteRepository.findByCreatedByGroupName(groupName);
-    }
-
     public boolean isSameGroup(long id) {
         AppUser currentUser = appUserService.getByUsername
                 (SecurityContextHolder.getContext().getAuthentication().getName());
         return this.getById(id).getCreatedBy().getGroupName().equals(currentUser.getGroupName());
     }
 
-    public Note save(Note note) {
-        return noteRepository.save(note);
+    public boolean isMine(long noteId) {
+        AppUser currentUser = appUserService.getByUsername
+                (SecurityContextHolder.getContext().getAuthentication().getName());
+        return this.getById(noteId).getCreatedBy().getId() == currentUser.getId();
+    }
+
+    public void save(Note note) {
+        noteRepository.save(note);
     }
 
     public void delete(long id) {
