@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 @SuppressWarnings({"UnusedDeclaration"})
 public class AuthService {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+  @Autowired private AuthenticationManager authenticationManager;
 
-    public Authentication authentication(String usernameOrEmail, String password) throws AuthenticationException {
-        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usernameOrEmail, password));
-    }
+  public Authentication authentication(String usernameOrEmail, String password)
+      throws AuthenticationException {
+    return authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(usernameOrEmail, password));
+  }
 }

@@ -8,11 +8,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SanitizedRole {
-    private long id;
-    private RoleName roleName;
+  private long id;
+  private RoleName roleName;
 
-    public SanitizedRole(Role role) {
-        this.id = role.getId();
-        this.roleName = role.getRoleName();
-    }
+  public SanitizedRole(Role role) {
+    this.id = role.getId();
+    this.roleName = role.getRoleName();
+  }
 }

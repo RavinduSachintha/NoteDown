@@ -5,5 +5,4 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CategoryUpdateRequest extends CategoryCreateRequest {
-}
+public class CategoryUpdateRequest extends CategoryCreateRequest {}
