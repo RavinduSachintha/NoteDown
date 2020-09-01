@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "App.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n\tlet count = 0;\n\n\tfunction test() {\n\t\talert('Hello World')\n\t\tcount++;\n\t}\n</script>\n\n<style>\n\tmain {\n\t\ttext-align: center;\n\t}\n\n\th1 {\n\t\tcolor: #ff3e00;\n\t\ttext-transform: uppercase;\n\t\tfont-size: 4em;\n\t\tfont-weight: 100;\n\t}\n</style>\n\n<main>\n\t<h1>Hello World</h1>\n\t<br>\n\t<button on:click={test}>\n\t\tTest Button {count}\n\t</button>\n</main>"
+  ],
+  "names": [],
+  "mappings": "AAUC,IAAI,eAAC,CAAC,AACL,UAAU,CAAE,MAAM,AACnB,CAAC,AAED,EAAE,eAAC,CAAC,AACH,KAAK,CAAE,OAAO,CACd,cAAc,CAAE,SAAS,CACzB,SAAS,CAAE,GAAG,CACd,WAAW,CAAE,GAAG,AACjB,CAAC"
+}
