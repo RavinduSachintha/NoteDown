@@ -29,3 +29,4 @@ jobs:
           HD_SWAGGER_ENABLED: ${{secrets.SWAGGER_ENABLED}}
           HD_JPA_OPEN_IN_VIEW: ${{secrets.JPA_OPEN_IN_VIEW}}
           HD_JPA_SHOW_SQL: ${{secrets.JPA_SHOW_SQL}}
+          HD_INCLUDE_STACKTRACE: ${{secrets.INCLUDE_STACKTRACE}}
