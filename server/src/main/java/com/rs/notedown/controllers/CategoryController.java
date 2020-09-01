@@ -75,7 +75,7 @@ public class CategoryController {
         }
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     @PreAuthorize("(hasRole('ADMIN') AND @categoryService.isSameGroup(#id)) OR " +
             "(hasRole('USER') AND @categoryService.isMine(#id))")
     public ResponseEntity<Object> updateCategory(
